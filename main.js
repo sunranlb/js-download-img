@@ -1,10 +1,11 @@
 import request from 'request';
 import fs from 'fs';
 
+const MAX_COL_NUM = 35;
 function start(g, i, j) {
-    let name = '5-' + i + '-' + j;
-    // https://www.encyclopedia-titanica.org/titanic-deckplans/boat-deck/TileGroup0/5-10-2.jpg
-    let url = 'https://www.encyclopedia-titanica.org/titanic-deckplans/boat-deck/TileGroup' + g + '/' + name + '.jpg';
+    let name = '6-' + i + '-' + j;
+    // https://www.encyclopedia-titanica.org/titanic-deckplans/d-deck/TileGroup0/6-19-0.jpg
+    let url = 'https://www.encyclopedia-titanica.org/titanic-deckplans/d-deck/TileGroup' + g + '/' + name + '.jpg';
     request({
         url,
         // proxy,
@@ -22,11 +23,11 @@ function start(g, i, j) {
                 throw new Error(res.statusCode + ':' + url);
             } else {
                 console.log("done " + name);
-                // if (i < 21) {
-                //     start(g, i + 1, j);
-                // } else if (j < 140) {
-                //     start(g, 0, j + 1);
-                // }
+                if (i < MAX_COL_NUM) {
+                    start(g, i + 1, j);
+                } else if (j < 140) {
+                    start(g, 0, j + 1);
+                }
             }
         })
         .on("error", (err) => {
@@ -37,4 +38,4 @@ function start(g, i, j) {
     console.log('img/' + name + '.jpg');
 }
 
-start(0, 2, 3);
+start(0, 0, 0);
